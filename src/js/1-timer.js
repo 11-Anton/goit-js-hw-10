@@ -4,23 +4,8 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const ref = {
-    currentDays: document.querySelector('span[dara-days]'),
-    currentHours: document.querySelector('span[data-hours]'),
-    currentMinutes: document.querySelector('span[data-minutes]'),
-    currentSeconds: document.querySelector('span[data-seconds]'),
-    btnStart: document.querySelector('button[data-start]'),
-    dateTimePicker: document.querySelector('#datetime-picker'),
-};
-
-let userSelectedDate = null;
-let intervalId = null;
-let diffDate = null;
-
-ref.btnStart.setAttribute('disabled', 'disabled');
-
 ref.dateTimePicker.addEventListener('click', () => {
-    ref.btnStart.removeAttribute('disabled', 'disabled');
+    ref.btnStart.removeAttribute('disabled');
 });
 
 const options = {
@@ -38,7 +23,7 @@ const options = {
       });
       ref.btnStart.setAttribute('disabled', 'disabled');
     } else {
-      ref.btnStart.removeAttribute('disabled', 'disabled');
+      ref.btnStart.removeAttribute('disabled');
       userSelectedDate = selectedDates[0];
     }
   },
@@ -55,6 +40,7 @@ ref.btnStart.addEventListener('click', () => {
     addLeadingZero({ days, hours, minutes, seconds });
   }, 1000);
 });
+
 function addLeadingZero({ days, hours, minutes, seconds }) {
   if (diffDate <= 1000) {
     clearInterval(intervalId);
@@ -70,6 +56,7 @@ function addLeadingZero({ days, hours, minutes, seconds }) {
   ref.currentMinutes.textContent = `${minutes}`.padStart(2, '0');
   ref.currentSeconds.textContent = `${seconds}`.padStart(2, '0');
 }
+
 function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
@@ -81,5 +68,5 @@ function convertMs(ms) {
   const minutes = Math.floor(((ms % day) % hour) / minute);
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
-    return { days, hours, minutes, seconds };
+  return { days, hours, minutes, seconds };
 }
